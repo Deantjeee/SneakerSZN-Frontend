@@ -51,11 +51,11 @@ function AllSneakers() {
   }
 
   return (
-    <div className="mt-8">
+    <div className="">
       <div className="w-full flex justify-center">
-        <div style={{ width: "80%" }}>
-          <Link to="./sneaker/create">
-            <Button className='mb-4 hover:bg-blue-800 transition-all' style={{ width: "180px" }} color="blue">
+        <div className='w-full'>
+          <Link to="./sneaker/create" className='w-44'>
+            <Button className='mb-4 w-44 hover:bg-blue-800 transition-all' color="blue">
               Create New <p className='ml-2'><FontAwesomeIcon icon={faPlus} /></p>
             </Button>
           </Link>
