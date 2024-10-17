@@ -13,9 +13,9 @@ function App() {
       <BrowserRouter>
         <Routes>
             <Route path="/" element={<Root/>}>
-              <Route path="/sneaker/overview" element={<AllSneakers/>}/>
-              <Route path="/sneaker/create" element={<CreateSneaker/>}/>
-              <Route path="/sneaker/:id/edit" element={<EditSneaker/>}/>
+              <Route path="/dashboard" element={<AllSneakers/>}/>
+              <Route path="/dashboard/sneaker/create" element={<CreateSneaker/>}/>
+              <Route path="/dashboard/sneaker/:id/edit" element={<EditSneaker/>}/>
             </Route>
         </Routes>
       </BrowserRouter>
