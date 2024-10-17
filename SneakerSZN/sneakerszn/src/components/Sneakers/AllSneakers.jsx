@@ -53,7 +53,7 @@ function AllSneakers() {
   return (
     <div className="">
       <div className="w-full flex justify-center">
-        <div className='w-[80%]'>
+        <div className='w-full'>
           <Link to="./sneaker/create" className='w-44'>
             <Button className='mb-4 w-44 hover:bg-blue-800 transition-all' color="blue">
               Create New <p className='ml-2'><FontAwesomeIcon icon={faPlus} /></p>
