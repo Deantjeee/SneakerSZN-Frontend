@@ -4,6 +4,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import AllSneakers from '../src/components/Sneakers/AllSneakers';
 import Root from "./Root";
+import CreateSneaker from './components/Sneakers/CreateSneaker';
+import EditSneaker from './components/Sneakers/EditSneaker';
 
 function App() {
   return (
@@ -11,7 +13,9 @@ function App() {
       <BrowserRouter>
         <Routes>
             <Route path="/" element={<Root/>}>
-              <Route path="/overview" element={<AllSneakers/>}/>
+              <Route path="/dashboard" element={<AllSneakers/>}/>
+              <Route path="/dashboard/sneaker/create" element={<CreateSneaker/>}/>
+              <Route path="/dashboard/sneaker/:id/edit" element={<EditSneaker/>}/>
             </Route>
         </Routes>
       </BrowserRouter>
