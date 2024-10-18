@@ -19,7 +19,7 @@ function Login() {
       ToastNotification('success', 'Welcome back!');
       return navigate('/'); 
     } catch (error) {
-      ToastNotification('error', 'Error while logging in!');
+      ToastNotification('error', error.message);
     }
   };
 
@@ -28,7 +28,6 @@ function Login() {
       <div className="font-logo text-2xl text-center pb-10">
         LOG INTO YOUR ACCOUNT
       </div>
-      {error && <p>{error}</p>}
       <div>
         <form className="max-w-sm mx-auto">
           <div className="mb-5">

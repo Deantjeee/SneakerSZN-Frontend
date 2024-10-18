@@ -1,4 +1,5 @@
 class AuthService {
+  
   async login(email, password) {
     try {
       const response = await fetch('https://localhost:7187/login', {
@@ -14,24 +15,21 @@ class AuthService {
       }
 
       const data = await response.json();
-      localStorage.setItem('accessToken', data.token); // Save the token to localStorage
+      localStorage.setItem('accessToken', data.token); 
       return data;
     } catch (error) {
       throw new Error(error.message || 'An error occurred during login');
     }
   }
 
-  // Logout method to clear the authentication token
   logout() {
-    localStorage.removeItem('accessToken'); // Remove the token from localStorage
+    localStorage.removeItem('accessToken');
   }
 
-  // Check if the user is authenticated
   isAuthenticated() {
-    return !!localStorage.getItem('accessToken'); // Returns true if a token exists
+    return !!localStorage.getItem('accessToken'); 
   }
 
-  // Get the current token
   getToken() {
     return localStorage.getItem('accessToken');
   }
