@@ -64,7 +64,7 @@ function EditSneaker() {
   return (
     <div className="w-full h-full">
       <div>
-        <h1 className="text-xl font-bold mb-4">{oldName}</h1>
+        <h1 className="text-xl font-bold mb-4 font-logo uppercase">{oldName}</h1>
       </div>
       <div className="flex max-w-md flex-col gap-4">
         <div>
@@ -86,9 +86,9 @@ function EditSneaker() {
           <TextInput id="small" type="number" value={price} onChange={(e) => setPrice(e.target.value)} sizing="sm" />
         </div>
       </div>
-      <Button onClick={handleUpdateSneaker} className='mt-8 hover:bg-blue-800 transition-all' style={{ width: "180px" }} color="blue">
-        Finalize Edit <p className='ml-2'><FontAwesomeIcon icon={faPen} /></p>
-      </Button>
+      <button className="px-10 mt-10 py-2 transition-all rounded-md hover:bg-secondaryHover flex font-logo bg-secondary text-white">
+        FINALIZE EDIT <p className='ml-2'><FontAwesomeIcon icon={faPen} /></p>
+      </button>
     </div>
   )
 }

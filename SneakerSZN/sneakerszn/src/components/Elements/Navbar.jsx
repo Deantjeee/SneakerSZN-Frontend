@@ -12,16 +12,16 @@ function NavBar() {
         </div>
         <div id="navbar-items" className="pl-10 flex items-center gap-5 w-full">
           <div className="flex gap-5">
-            <Link to="/" className="hover:text-secondaryHover transition-all">
+            <Link to="/" className="hover:text-secondaryHover transition-all active:text-secondaryHover">
               HOME
             </Link>
-            <Link to="/dashboard" className="hover:text-secondaryHover transition-all">
+            <Link to="/dashboard" className="hover:text-secondaryHover active:text-secondaryHover transition-all">
               DASHBOARD
             </Link>
           </div>
           <div className="ml-auto">
             <Link to="/login" className="">
-              <button className="px-10 py-2 transition-all rounded-full hover:bg-secondaryHover bg-secondary text-white">
+              <button className="px-10 py-2 transition-all rounded-full hover:bg-secondaryHover  bg-secondary text-white">
                 LOGIN
               </button>
             </Link>
