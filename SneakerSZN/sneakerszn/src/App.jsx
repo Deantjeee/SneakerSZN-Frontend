@@ -6,6 +6,8 @@ import AllSneakers from '../src/components/Sneakers/AllSneakers';
 import Root from "./Root";
 import CreateSneaker from './components/Sneakers/CreateSneaker';
 import EditSneaker from './components/Sneakers/EditSneaker';
+import Login from './components/Login/Login';
+import Register from './components/Login/Register';
 
 function App() {
   return (
@@ -13,6 +15,9 @@ function App() {
       <BrowserRouter>
         <Routes>
             <Route path="/" element={<Root/>}>
+              <Route path="/login" element={<Login/>}/>
+              <Route path="/register" element={<Register/>}/>
+
               <Route path="/dashboard" element={<AllSneakers/>}/>
               <Route path="/dashboard/sneaker/create" element={<CreateSneaker/>}/>
               <Route path="/dashboard/sneaker/:id/edit" element={<EditSneaker/>}/>

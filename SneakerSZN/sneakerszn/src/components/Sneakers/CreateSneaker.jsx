@@ -39,7 +39,7 @@ function CreateSneaker() {
   return (
     <div className="w-full h-full">
       <div>
-        <h1 className="text-xl font-bold mb-4">Create New</h1>
+        <h1 className="text-xl font-bold mb-4 font-logo">CREATE NEW SNEAKER</h1>
       </div>
       <div className="flex max-w-md flex-col gap-4">
         <div>
@@ -61,9 +61,9 @@ function CreateSneaker() {
           <TextInput id="small" type="number" onChange={(e) => setPrice(e.target.value)} sizing="sm" />
         </div>
       </div>
-      <Button onClick={handleCreateSneaker} className='mt-8 hover:bg-blue-800 transition-all' style={{ width: "180px" }} color="blue">
-        Create New <p className='ml-2'><FontAwesomeIcon icon={faPlus} /></p>
-      </Button>
+      <button onClick={handleCreateSneaker} className="px-10 mt-10 py-2 transition-all rounded-md hover:bg-secondaryHover flex font-logo bg-secondary text-white">
+        CREATE NEW <p className='ml-2'><FontAwesomeIcon icon={faPlus} /></p>
+      </button>
     </div>
   )
 }
