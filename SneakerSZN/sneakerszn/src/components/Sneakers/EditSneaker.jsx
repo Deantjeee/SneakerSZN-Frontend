@@ -86,7 +86,7 @@ function EditSneaker() {
           <TextInput id="small" type="number" value={price} onChange={(e) => setPrice(e.target.value)} sizing="sm" />
         </div>
       </div>
-      <button className="px-10 mt-10 py-2 transition-all rounded-md hover:bg-secondaryHover flex font-logo bg-secondary text-white">
+      <button onClick={handleUpdateSneaker} className="px-10 mt-10 py-2 transition-all rounded-md hover:bg-secondaryHover flex font-logo bg-secondary text-white">
         FINALIZE EDIT <p className='ml-2'><FontAwesomeIcon icon={faPen} /></p>
       </button>
     </div>
