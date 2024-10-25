@@ -59,7 +59,7 @@ function NavBar() {
                   </div>
                 </div>
                 <button onClick={handleLogout} className="ml-3 px-10 py-2 transition-all rounded-full hover:bg-red-600  bg-red-500 text-white">
-                  <FontAwesomeIcon icon={faArrowRightFromBracket} /> LOGOUT
+                <FontAwesomeIcon icon={faArrowRightFromBracket} /> LOGOUT
                 </button>
               </div>
             ) : (

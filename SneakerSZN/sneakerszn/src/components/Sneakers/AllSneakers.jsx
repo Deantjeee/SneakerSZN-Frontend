@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Link, redirect } from 'react-router-dom';
 import ToastNotification from '../../notifications/ToastNotification';
+import AuthService from '../../services/AuthService';
 
 function AllSneakers() {
 
@@ -52,6 +53,7 @@ function AllSneakers() {
 
   return (
     <div className="">
+      { AuthService.isAuthenticated() ? (
       <div className="w-full ">
         <div className='w-full flex flex-col'>
           <div className="flex mb-2">
@@ -99,6 +101,11 @@ function AllSneakers() {
           </div>
         </div>
       </div>
+    ) : (
+      <div>
+        Not logged in
+      </div>
+    )}
     </div>
   )
 }

@@ -31,7 +31,10 @@ function CreateSneaker() {
     if (response.status === 200) {
       ToastNotification('success', 'Created a new sneaker');
       return navigate("../../dashboard")
-    } else {
+    } else if (response.status === 401) {
+      ToastNotification('error', "You don't have the rights to do this");
+    }
+      else {
       ToastNotification('error', 'Error while creating sneaker');
     }
   }

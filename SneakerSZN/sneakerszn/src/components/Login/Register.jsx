@@ -1,6 +1,7 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import ToastNotification from "../../notifications/ToastNotification";
+import AuthService from "../../services/AuthService";
 
 function Register() {
 
@@ -10,6 +11,11 @@ function Register() {
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
 
+  useEffect(() => {
+    if(AuthService.isAuthenticated()) {
+      navigate("/");
+    }
+  }, [])
 
   const handleCreateUser = async (e) => {
 

@@ -1,6 +1,29 @@
 class AuthService {
+
+  async getUserRoles() {
+    const token = localStorage.getItem('token'); 
+
+    if (!token) {
+      throw new Error('No authentication token found');
+    }
+
+    const response = await fetch('https://localhost:7187/api/User/roles', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.ok) {
+      return response.json(); // Return an array of roles
+    } else {
+      throw new Error('Failed to fetch user roles');
+    }
+  }
   
   async getUserInfo() {
+
     try {
       const token = localStorage.getItem('token'); 
 

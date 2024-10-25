@@ -8,23 +8,32 @@ import CreateSneaker from './components/Sneakers/CreateSneaker';
 import EditSneaker from './components/Sneakers/EditSneaker';
 import Login from './components/Login/Login';
 import Register from './components/Login/Register';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-            <Route path="/" element={<Root/>}>
-              <Route path="/login" element={<Login/>}/>
-              <Route path="/register" element={<Register/>}/>
+          <Route path="/" element={<Root />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
-              <Route path="/dashboard" element={<AllSneakers/>}/>
-              <Route path="/dashboard/sneaker/create" element={<CreateSneaker/>}/>
-              <Route path="/dashboard/sneaker/:id/edit" element={<EditSneaker/>}/>
-            </Route>
+            {/* ADMIN ROUTES */}
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute requiredRole="Admin">
+                  <AllSneakers />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/dashboard/sneaker/create" element={<CreateSneaker />} />
+            <Route path="/dashboard/sneaker/:id/edit" element={<EditSneaker />} />
+          </Route>
         </Routes>
       </BrowserRouter>
-      <ToastContainer stacked/>
+      <ToastContainer stacked />
     </>
   );
 }
