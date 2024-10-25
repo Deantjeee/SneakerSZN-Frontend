@@ -20,16 +20,27 @@ function App() {
             <Route path="/register" element={<Register />} />
 
             {/* ADMIN ROUTES */}
-            <Route
-              path="/dashboard"
+            <Route path="/dashboard" 
               element={
                 <ProtectedRoute requiredRole="Admin">
                   <AllSneakers />
                 </ProtectedRoute>
               }
             />
-            <Route path="/dashboard/sneaker/create" element={<CreateSneaker />} />
-            <Route path="/dashboard/sneaker/:id/edit" element={<EditSneaker />} />
+            <Route path="/dashboard/sneaker/create" 
+              element={
+                <ProtectedRoute requiredRole="Admin">
+                  <CreateSneaker />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/dashboard/sneaker/:id/edit" 
+              element={
+                <ProtectedRoute requiredRole="Admin">
+                  <EditSneaker />
+                </ProtectedRoute>
+              }
+            />
           </Route>
         </Routes>
       </BrowserRouter>
