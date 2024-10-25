@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import AuthService from "../../services/AuthService";
 import ToastNotification from "../../notifications/ToastNotification";
@@ -10,6 +10,12 @@ function Login() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if(AuthService.isAuthenticated()) {
+      navigate("/");
+    }
+  }, [])
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(null);
@@ -17,7 +23,7 @@ function Login() {
     try {
       await AuthService.login(email, password);
       ToastNotification('success', 'Welcome back!');
-      return navigate('/'); 
+      return navigate('/dashboard'); 
     } catch (error) {
       ToastNotification('error', error.message);
     }
