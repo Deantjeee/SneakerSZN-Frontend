@@ -66,9 +66,11 @@ function AllSneakers() {
           <div className="overflow-x-auto rounded-md">
             <Table>
               <Table.Head>
+                <Table.HeadCell>Brand</Table.HeadCell>
                 <Table.HeadCell>Product Name</Table.HeadCell>
                 <Table.HeadCell>Size</Table.HeadCell>
                 <Table.HeadCell>Price</Table.HeadCell>
+                <Table.HeadCell>Stock</Table.HeadCell>
                 <Table.HeadCell>
                   <span className="sr-only">Edit </span>
                 </Table.HeadCell>
@@ -80,10 +82,14 @@ function AllSneakers() {
                 {data.map(item => (
                   <Table.Row key={item.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white py-3">
+                      {item.brand}
+                    </Table.Cell>
+                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white py-3">
                       {item.name}
                     </Table.Cell>
                     <Table.Cell className='py-3'>{item.size}</Table.Cell>
                     <Table.Cell className='py-3'>€{item.price}</Table.Cell>
+                    <Table.Cell className='py-3'>{item.stock}</Table.Cell>
                     <Table.Cell>
                       <Link to={`./sneaker/${item.id}/edit`} className='font-medium text-cyan-600 hover:underline dark:text-cyan-500'>
                         Edit <FontAwesomeIcon icon={faPen} />
