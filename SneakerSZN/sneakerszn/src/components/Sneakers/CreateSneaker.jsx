@@ -16,7 +16,6 @@ function CreateSneaker() {
   const [brandId, setBrandId] = useState('');
   const [brands, setBrands] = useState([]);
 
-  // Fetch the brands when the component is mounted
   useEffect(() => {
     const fetchBrands = async () => {
       try {
@@ -48,7 +47,7 @@ function CreateSneaker() {
         size: size,
         price: price,
         stock: stock,
-        brandId: brandId // Include brandId in the request
+        brandId: brandId
       }),
     });
 

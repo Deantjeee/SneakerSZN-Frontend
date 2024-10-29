@@ -8,13 +8,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function NavBar() {
 
   const [userEmail, setUserEmail] = useState('');
+  const [roles, setRoles] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUserEmail = async () => {
+    const fetchUserInfo = async () => {
       if (AuthService.isAuthenticated()) {
         try {
           const userInfo = await AuthService.getUserInfo();
+          const roles = await AuthService.getUserRoles();
+          setRoles(roles);
           setUserEmail(userInfo[1]);
         } catch (error) {
           console.error('Failed to fetch user info:', error);
@@ -22,11 +25,12 @@ function NavBar() {
       }
     };
 
-    fetchUserEmail();
+    fetchUserInfo();
   }, []);
 
   const handleLogout = () => {
     AuthService.logout();
+    setRoles([]);
     navigate('/login');
   };
 
@@ -43,9 +47,17 @@ function NavBar() {
             <Link to="/" className="hover:text-secondaryHover transition-all active:text-secondaryHover">
               HOME
             </Link>
-            <Link to="/dashboard" className="hover:text-secondaryHover active:text-secondaryHover transition-all">
-              DASHBOARD
-            </Link>
+            {roles[1] = "Admin" ? (
+              <>
+                <Link to="/dashboard" className="hover:text-secondaryHover active:text-secondaryHover transition-all">
+                  DASHBOARD
+                </Link>
+              </>
+            ) : (
+              <>
+
+              </>
+            )}
           </div>
           <div className="ml-auto">
             {AuthService.isAuthenticated() ? (
@@ -59,7 +71,7 @@ function NavBar() {
                   </div>
                 </div>
                 <button onClick={handleLogout} className="ml-3 px-10 py-2 transition-all rounded-full hover:bg-red-600  bg-red-500 text-white">
-                <FontAwesomeIcon icon={faArrowRightFromBracket} /> LOGOUT
+                  <FontAwesomeIcon icon={faArrowRightFromBracket} /> LOGOUT
                 </button>
               </div>
             ) : (

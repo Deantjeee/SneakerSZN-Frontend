@@ -10,7 +10,6 @@ function AllSneakers() {
 
   const [data, setData] = useState([]);
 
-  // Function to fetch all sneakers
   const fetchSneakers = () => {
     fetch('https://localhost:7187/api/Sneaker')
       .then(response => {
@@ -27,12 +26,10 @@ function AllSneakers() {
       });
   };
 
-  // Fetch sneakers on load
   useEffect(() => {
     fetchSneakers();
   }, []);
 
-  // Handling delete
   async function handleDelete(id) {
     const response = await fetch(`https://localhost:7187/api/Sneaker/${id}`, {
       method: "DELETE",
@@ -44,7 +41,6 @@ function AllSneakers() {
 
     if (response.status === 200) {
       ToastNotification('success', 'Deleted sneaker');
-      // Re-fetch the sneakers after deletion
       fetchSneakers();
     } else {
       ToastNotification('error', 'Error while deleting sneaker');
