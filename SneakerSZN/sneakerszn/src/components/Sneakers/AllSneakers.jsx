@@ -52,7 +52,7 @@ function AllSneakers() {
       { AuthService.isAuthenticated() ? (
       <div className="w-full ">
         <div className='w-full flex flex-col'>
-          <div className="flex mb-2">
+          <div className="flex mb-4">
             <Link to="./create" className=''>
               <button className="px-10 py-2 transition-all rounded-md hover:bg-secondaryHover flex font-logo bg-secondary text-white">
                 CREATE NEW <p className='ml-2'><FontAwesomeIcon icon={faPlus} /></p>

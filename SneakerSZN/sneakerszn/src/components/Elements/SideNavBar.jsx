@@ -7,32 +7,25 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function NavBar() {
 
-  const [userEmail, setUserEmail] = useState('');
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      if (AuthService.isAuthenticated()) {
-        try {
-          const userInfo = await AuthService.getUserInfo();
-          setUserEmail(userInfo[1]);
-        } catch (error) {
-          console.error('Failed to fetch user info:', error);
-        }
-      }
-    };
-
-    fetchUserInfo();
-  }, [AuthService.isAuthenticated()]);
-
-  const handleLogout = () => {
-    AuthService.logout();
-    navigate('/login');
-  };
-
   return (
-    <div>
-      hallo
+    <div className="h-dvh bg-main w-full flex justify-center font-logo">
+      <div className="w-[80%]">
+        <div className="text-3xl pt-4 text-secondary">
+          SNEAKERSZN
+        </div>
+        <div className="gap-5 mt-10 text-lg">
+          <div className="">
+            <Link to="./dashboard/sneakers" className="hover:text-secondaryHover transition-all active:text-secondaryHover">
+              SNEAKERS
+            </Link>
+          </div>
+          <div>
+            <Link to="./dashboard/brands" className="hover:text-secondaryHover transition-all active:text-secondaryHover">
+              BRANDS
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
