@@ -41,11 +41,15 @@ function NavBar() {
         <div id="navbar-items" className="pl-10 flex items-center gap-5 w-full">
           <div className="flex gap-5">
             <Link to="/" className="hover:text-secondaryHover transition-all active:text-secondaryHover">
-              HOME
+              BROWSE
             </Link>
-            <Link to="/dashboard" className="hover:text-secondaryHover active:text-secondaryHover transition-all">
-              DASHBOARD
-            </Link>
+            {AuthService.isAuthenticated() ? (
+              <Link to="/orders" className="hover:text-secondaryHover active:text-secondaryHover transition-all">
+                MY ORDERS
+              </Link>
+            ) : (
+              <></>
+            )}
           </div>
           <div className="ml-auto">
             {AuthService.isAuthenticated() ? (
