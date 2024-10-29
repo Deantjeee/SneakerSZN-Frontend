@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import AuthService from "../../services/AuthService";
 import ToastNotification from "../../notifications/ToastNotification";
+import NavBar from "../Elements/Navbar";
 
 function Login() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,12 +18,11 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError(null);
 
     try {
       await AuthService.login(email, password);
       ToastNotification('success', 'Welcome back!');
-      return navigate('/dashboard'); 
+      return navigate('/admin/dashboard/sneakers'); 
     } catch (error) {
       ToastNotification('error', error.message);
     }

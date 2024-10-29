@@ -11,7 +11,7 @@ function NavBar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUserEmail = async () => {
+    const fetchUserInfo = async () => {
       if (AuthService.isAuthenticated()) {
         try {
           const userInfo = await AuthService.getUserInfo();
@@ -22,8 +22,8 @@ function NavBar() {
       }
     };
 
-    fetchUserEmail();
-  }, []);
+    fetchUserInfo();
+  }, [AuthService.isAuthenticated()]);
 
   const handleLogout = () => {
     AuthService.logout();
@@ -41,11 +41,15 @@ function NavBar() {
         <div id="navbar-items" className="pl-10 flex items-center gap-5 w-full">
           <div className="flex gap-5">
             <Link to="/" className="hover:text-secondaryHover transition-all active:text-secondaryHover">
-              HOME
+              BROWSE
             </Link>
-            <Link to="/dashboard" className="hover:text-secondaryHover active:text-secondaryHover transition-all">
-              DASHBOARD
-            </Link>
+            {AuthService.isAuthenticated() ? (
+              <Link to="/orders" className="hover:text-secondaryHover active:text-secondaryHover transition-all">
+                MY ORDERS
+              </Link>
+            ) : (
+              <></>
+            )}
           </div>
           <div className="ml-auto">
             {AuthService.isAuthenticated() ? (
@@ -59,7 +63,7 @@ function NavBar() {
                   </div>
                 </div>
                 <button onClick={handleLogout} className="ml-3 px-10 py-2 transition-all rounded-full hover:bg-red-600  bg-red-500 text-white">
-                <FontAwesomeIcon icon={faArrowRightFromBracket} /> LOGOUT
+                  <FontAwesomeIcon icon={faArrowRightFromBracket} /> LOGOUT
                 </button>
               </div>
             ) : (

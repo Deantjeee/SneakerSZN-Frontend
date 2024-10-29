@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from "flowbite-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate, useParams } from 'react-router-dom';
 import ToastNotification from '../../notifications/ToastNotification';
-import { Label, TextInput } from "flowbite-react";
+import { Label, TextInput, Select } from "flowbite-react";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 
 function EditSneaker() {
@@ -15,6 +14,11 @@ function EditSneaker() {
   const [name, setName] = useState('');
   const [size, setSize] = useState('');
   const [price, setPrice] = useState('');
+  const [stock, setStock] = useState('');
+  const [selectedBrand, setSelectedBrand] = useState('');
+  const [selectedBrandId, setSelectedBrandId] = useState('');
+  const [brandId, setBrandId] = useState('');
+  const [brands, setBrands] = useState([]);
 
   useEffect(() => {
     const fetchSneaker = async () => {
@@ -25,19 +29,39 @@ function EditSneaker() {
         }
         const sneakerData = await response.json();
 
-        setOldName(sneakerData.name)
+        setOldName(sneakerData.name);
         setName(sneakerData.name);
         setSize(sneakerData.size);
         setPrice(sneakerData.price);
-
+        setStock(sneakerData.stock);
+        setSelectedBrand(sneakerData.brand.name);
+        setSelectedBrandId(sneakerData.brand.id);
       } catch (error) {
         console.error('Error:', error);
       }
     };
 
     fetchSneaker();
-
   }, [id]);
+
+  useEffect(() => {
+    const fetchBrands = async () => {
+      try {
+        const response = await fetch(`https://localhost:7187/api/Brand`);
+        if (response.ok) {
+          const data = await response.json();
+          setBrands(data);
+        } else {
+          ToastNotification('error', 'Failed to fetch brands');
+        }
+      } catch (error) {
+        console.error('Error fetching brands:', error);
+        ToastNotification('error', 'Error fetching brands');
+      }
+    };
+
+    fetchBrands();
+  }, []);
 
   const handleUpdateSneaker = async () => {
     const response = await fetch(`https://localhost:7187/api/Sneaker/${id}`, {
@@ -49,7 +73,9 @@ function EditSneaker() {
       body: JSON.stringify({
         name: name,
         size: size,
-        price: price
+        price: price,
+        stock: stock,
+        brandId: brandId
       }),
     });
 
@@ -69,21 +95,49 @@ function EditSneaker() {
       <div className="flex max-w-md flex-col gap-4">
         <div>
           <div className="mb-2 block">
-            <Label className="w-full" htmlFor="small" value="Name" />
+            <Label htmlFor="name" value="Name" />
           </div>
-          <TextInput id="small" type="text" value={name} onChange={(e) => setName(e.target.value)} sizing="sm" />
+          <TextInput id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} sizing="sm" />
         </div>
         <div>
           <div className="mb-2 block">
-            <Label htmlFor="small" value="Size" />
+            <Label htmlFor="size" value="Size" />
           </div>
-          <TextInput id="small" type="text" value={size} onChange={(e) => setSize(e.target.value)} sizing="sm" />
+          <TextInput id="size" type="text" value={size} onChange={(e) => setSize(e.target.value)} sizing="sm" />
         </div>
         <div>
           <div className="mb-2 block">
-            <Label htmlFor="small" value="Price" />
+            <Label htmlFor="price" value="Price" />
           </div>
-          <TextInput id="small" type="number" value={price} onChange={(e) => setPrice(e.target.value)} sizing="sm" />
+          <TextInput id="price" type="number" value={price} onChange={(e) => setPrice(e.target.value)} sizing="sm" />
+        </div>
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="stock" value="Stock" />
+          </div>
+          <TextInput id="stock" type="number" value={stock} onChange={(e) => setStock(e.target.value)} sizing="sm" />
+        </div>
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="brand" value="Brand" />
+          </div>
+          <Select id="brand" value={brandId} onChange={(e) => setBrandId(e.target.value)} required>
+            <option key={selectedBrandId}>{selectedBrand}</option>
+            {brands.map((brand) => (
+              <>
+                {brand.id == selectedBrandId ? (
+                  <>
+                  </>
+                ) : (
+                  <>
+                    <option key={brand.id} value={brand.id}>
+                      {brand.name}
+                    </option>
+                  </>
+                )}
+              </>
+            ))}
+          </Select>
         </div>
       </div>
       <button onClick={handleUpdateSneaker} className="px-10 mt-10 py-2 transition-all rounded-md hover:bg-secondaryHover flex font-logo bg-secondary text-white">
