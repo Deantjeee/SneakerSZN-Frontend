@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function NavBar() {
 
   const [userEmail, setUserEmail] = useState('');
-  const [roles, setRoles] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,8 +15,6 @@ function NavBar() {
       if (AuthService.isAuthenticated()) {
         try {
           const userInfo = await AuthService.getUserInfo();
-          const roles = await AuthService.getUserRoles();
-          setRoles(roles);
           setUserEmail(userInfo[1]);
         } catch (error) {
           console.error('Failed to fetch user info:', error);
@@ -26,11 +23,10 @@ function NavBar() {
     };
 
     fetchUserInfo();
-  }, []);
+  }, [AuthService.isAuthenticated()]);
 
   const handleLogout = () => {
     AuthService.logout();
-    setRoles([]);
     navigate('/login');
   };
 
@@ -47,17 +43,9 @@ function NavBar() {
             <Link to="/" className="hover:text-secondaryHover transition-all active:text-secondaryHover">
               HOME
             </Link>
-            {roles[1] = "Admin" ? (
-              <>
-                <Link to="/dashboard" className="hover:text-secondaryHover active:text-secondaryHover transition-all">
-                  DASHBOARD
-                </Link>
-              </>
-            ) : (
-              <>
-
-              </>
-            )}
+            <Link to="/dashboard" className="hover:text-secondaryHover active:text-secondaryHover transition-all">
+              DASHBOARD
+            </Link>
           </div>
           <div className="ml-auto">
             {AuthService.isAuthenticated() ? (

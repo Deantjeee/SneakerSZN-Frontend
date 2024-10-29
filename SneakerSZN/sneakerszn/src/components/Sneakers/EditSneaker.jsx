@@ -74,7 +74,9 @@ function EditSneaker() {
       body: JSON.stringify({
         name: name,
         size: size,
-        price: price
+        price: price,
+        stock: stock,
+        brandId: brandId
       }),
     });
 

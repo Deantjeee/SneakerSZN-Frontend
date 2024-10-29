@@ -9,20 +9,25 @@ import EditSneaker from './components/Sneakers/EditSneaker';
 import Login from './components/Login/Login';
 import Register from './components/Login/Register';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoot from './AdminRoot';
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Root />}>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+          <Route path="/">
+            <Route path="" element={<Root />}>
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} />
+            </Route>
 
             {/* ADMIN ROUTES */}
-            <Route path="/dashboard" element={<ProtectedRoute requiredRole="Admin"><AllSneakers /></ProtectedRoute>}/>
-            <Route path="/dashboard/sneaker/create" element={<ProtectedRoute requiredRole="Admin"><CreateSneaker /></ProtectedRoute>}/>
-            <Route path="/dashboard/sneaker/:id/edit" element={<ProtectedRoute requiredRole="Admin"><EditSneaker /></ProtectedRoute>}/>
+            <Route path="admin" element={<AdminRoot />}>
+              <Route path="dashboard" element={<ProtectedRoute requiredRole="Admin"><AllSneakers /></ProtectedRoute>} />
+              <Route path="dashboard/sneaker/create" element={<ProtectedRoute requiredRole="Admin"><CreateSneaker /></ProtectedRoute>} />
+              <Route path="dashboard/sneaker/:id/edit" element={<ProtectedRoute requiredRole="Admin"><EditSneaker /></ProtectedRoute>} />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>
