@@ -91,9 +91,10 @@ function EditSneaker() {
   return (
     <div className="w-full h-full">
       <div>
-        <h1 className="text-xl font-bold mb-4 font-logo uppercase">{oldName}</h1>
+        <h1 className="text-xl font-bold mb-3 font-logo uppercase">EDIT {oldName}</h1>
       </div>
-      <div className="flex max-w-md flex-col gap-4">
+      <hr />
+      <div className="flex max-w-md mt-3 flex-col gap-4">
         <div>
           <div className="mb-2 block">
             <Label htmlFor="name" value="Name" />

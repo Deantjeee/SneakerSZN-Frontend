@@ -13,7 +13,7 @@ function SideNavBar() {
   return (
     <div className="h-dvh bg-main w-[18%] flex justify-center fixed font-logo">
       <div className="w-[80%]">
-        <div className="text-3xl pt-4 text-secondary text-center">
+        <div className="text-3xl mt-3 pt-1 text-secondary text-center pb-1 border-b-4  border-secondary rounded-xl">
           SNEAKERSZN
         </div>
         <div className="mt-10 text-lg w-full">
@@ -22,8 +22,8 @@ function SideNavBar() {
               <NavLink to={item.href} className={({ isActive }) => {
                 return "hover:bg-secondaryHover w-full text-white transition-all py-2 block rounded-xl bg-secondary " +
                   (isActive == true
-                    ? "border-l-4 pl-2 border-white bg-secondaryHover"
-                    : "pl-4"
+                    ? "border-l-4 pl-4 border-gray-100 bg-secondaryHover"
+                    : "pl-8"
                   );
               }}>
                 {item.icon != null ? (

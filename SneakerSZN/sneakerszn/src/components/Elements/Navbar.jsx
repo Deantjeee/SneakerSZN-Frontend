@@ -50,7 +50,7 @@ function NavBar() {
               BROWSE
             </NavLink>
             {AuthService.isAuthenticated() ? (
-              <NavLink to="/orders" className={({ isActive }) => {
+              <NavLink to="/account/myorders" className={({ isActive }) => {
                 return "hover:text-secondaryHover transition-all " +
                 (isActive
                   ? "text-secondaryHover underline"

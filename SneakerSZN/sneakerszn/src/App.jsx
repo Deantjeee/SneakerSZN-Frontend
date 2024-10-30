@@ -1,7 +1,7 @@
 import './App.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { Route, Routes, BrowserRouter, Navigate, useNavigate } from "react-router-dom";
 import AllSneakers from './components/Dashboard/Sneakers/AllSneakers';
 import CreateSneaker from './components/Dashboard/Sneakers/CreateSneaker';
 import EditSneaker from './components/Dashboard/Sneakers/EditSneaker';
@@ -14,6 +14,8 @@ import Login from './components/Login/Login';
 import Register from './components/Login/Register';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoot from './AdminRoot';
+import MyOrders from './components/Orders/MyOrders';
+import AuthService from './services/AuthService';
 
 
 function App() {
@@ -27,17 +29,22 @@ function App() {
               <Route path="register" element={<Register />} />
             </Route>
 
+            {/* ACCOUNT ROUTES */}
+            <Route path="account" element={AuthService.isAuthenticated ? <Root/> : <Navigate to="/login"/>}>
+              <Route path="myorders" element={<MyOrders />} />
+            </Route>
+
             {/* ADMIN ROUTES */}
             <Route path="admin" element={<ProtectedRoute requiredRole="Admin"><AdminRoot /></ProtectedRoute>}>
-              <Route path="dashboard/overview" element={<Overview />}/>
+              <Route path="dashboard/overview" element={<Overview />} />
 
-              <Route path="dashboard/sneakers" element={<AllSneakers />}/>
-              <Route path="dashboard/sneakers/create" element={<CreateSneaker />}/>
-              <Route path="dashboard/sneakers/:id/edit" element={<EditSneaker />}/>
+              <Route path="dashboard/sneakers" element={<AllSneakers />} />
+              <Route path="dashboard/sneakers/create" element={<CreateSneaker />} />
+              <Route path="dashboard/sneakers/:id/edit" element={<EditSneaker />} />
 
-              <Route path="dashboard/brands" element={<AllBrands />}/>
-              <Route path="dashboard/brands/create" element={<CreateBrand />}/>
-              <Route path="dashboard/brands/:id/edit" element={<EditBrand />}/>
+              <Route path="dashboard/brands" element={<AllBrands />} />
+              <Route path="dashboard/brands/create" element={<CreateBrand />} />
+              <Route path="dashboard/brands/:id/edit" element={<EditBrand />} />
             </Route>
           </Route>
         </Routes>

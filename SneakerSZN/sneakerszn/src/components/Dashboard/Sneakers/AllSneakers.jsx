@@ -49,9 +49,12 @@ function AllSneakers() {
 
   return (
     <div className="">
-      { AuthService.isAuthenticated() ? (
       <div className="w-full ">
-        <div className='w-full flex flex-col'>
+        <div className='font-logo text-xl font-bold mb-2'>
+          PRODUCTS
+        </div>
+        <hr></hr>
+        <div className='w-full flex mt-3 flex-col'>
           <div className="flex mb-4">
             <Link to="./create" className=''>
               <button className="px-10 py-2 transition-all rounded-md hover:bg-secondaryHover flex font-logo bg-secondary text-white">
@@ -103,11 +106,6 @@ function AllSneakers() {
           </div>
         </div>
       </div>
-    ) : (
-      <div>
-        Not logged in
-      </div>
-    )}
     </div>
   )
 }

@@ -36,9 +36,10 @@ function CreateBrand() {
   return (
     <div className="w-full h-full">
       <div>
-        <h1 className="text-xl font-bold mb-4 font-logo">CREATE NEW BRAND</h1>
+        <h1 className="text-xl font-bold mb-3 font-logo">CREATE NEW BRAND</h1>
       </div>
-      <div className="flex max-w-md flex-col gap-4">
+      <hr />
+      <div className="flex max-w-md mt-3 flex-col gap-4">
         <div>
           <div className="mb-2 block">
             <Label className="w-full" htmlFor="small" value="Name" />
