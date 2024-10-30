@@ -3,7 +3,7 @@ import { Button } from "flowbite-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
-import ToastNotification from '../../notifications/ToastNotification';
+import ToastNotification from '../../../notifications/ToastNotification';
 import { Label, TextInput, Select } from "flowbite-react";
 
 function CreateBrand() {

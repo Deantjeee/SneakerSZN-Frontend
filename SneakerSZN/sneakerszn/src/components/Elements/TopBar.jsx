@@ -30,15 +30,11 @@ function TopBar() {
   };
 
   return (
-    <div className="w-full font-logo mb-5 bg-white rounded-md">
+    <div className="w-full font-logo mb-5 bg-white rounded-md shadow-md">
       <div className="flex w-full items-center p-2 justify-between">
-        
-        {/* Left Side Content */}
         <div className="pl-2 text-xl font-bold">
           DASHBOARD
         </div>
-
-        {/* Right Side Content */}
         <div className="flex items-center space-x-4">
           <div className="pl-2 pr-3 py-2 transition-all uppercase rounded-md flex bg-secondary text-white">
             <div className="bg-gray-300 rounded-full mr-2 w-6 h-6 flex justify-center items-center">

@@ -4,6 +4,30 @@
 @tailwind components;
 @tailwind utilities;
 
+/* custom scrollbar */
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #F6F6F6;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+  border-radius: 20px;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a8bbbf;
+}
+
+body {
+  overflow-y: scroll;
+}
+
 .App {
   text-align: center;
 }
@@ -49,3 +73,4 @@
   margin-left: 20px;
   margin-right: 20px;
 }
+

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate, useParams } from 'react-router-dom';
-import ToastNotification from '../../notifications/ToastNotification';
+import ToastNotification from '../../../notifications/ToastNotification';
 import { Label, TextInput, Select } from "flowbite-react";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 

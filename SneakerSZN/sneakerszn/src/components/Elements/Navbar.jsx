@@ -1,5 +1,5 @@
 import { Button } from "flowbite-react";
-import { Link, useNavigate } from "react-router-dom"
+import { Link, NavLink, useNavigate } from "react-router-dom"
 import AuthService from "../../services/AuthService";
 import { useEffect, useState } from "react";
 import { faUser, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
@@ -31,7 +31,7 @@ function NavBar() {
   };
 
   return (
-    <div className='w-full py-5 justify-center bg-main font-logo text-secondary flex shadow-md mb-8'>
+    <div className='w-full py-5 justify-center bg-main font-logo text-secondary flex shadow-md'>
       <div className="w-[98%] md:w-[80%] flex">
         <div id="logo" className="text-3xl flex items-center">
           <Link to="/">
@@ -39,14 +39,26 @@ function NavBar() {
           </Link>
         </div>
         <div id="navbar-items" className="pl-10 flex items-center gap-5 w-full">
-          <div className="flex gap-5">
-            <Link to="/" className="hover:text-secondaryHover transition-all active:text-secondaryHover">
+          <div className="flex gap-5 ">
+            <NavLink to="/" className={({ isActive }) => {
+              return "hover:text-secondaryHover transition-all " +
+                (isActive
+                  ? "text-secondaryHover underline"
+                  : ""
+                );
+            }}>
               BROWSE
-            </Link>
+            </NavLink>
             {AuthService.isAuthenticated() ? (
-              <Link to="/orders" className="hover:text-secondaryHover active:text-secondaryHover transition-all">
+              <NavLink to="/orders" className={({ isActive }) => {
+                return "hover:text-secondaryHover transition-all " +
+                (isActive
+                  ? "text-secondaryHover underline"
+                  : ""
+                );
+              }}>
                 MY ORDERS
-              </Link>
+              </NavLink>
             ) : (
               <></>
             )}

@@ -3,7 +3,7 @@ import { Button } from "flowbite-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
-import ToastNotification from '../../notifications/ToastNotification';
+import ToastNotification from '../../../notifications/ToastNotification';
 import { Label, TextInput, Select } from "flowbite-react";
 
 function CreateSneaker() {
@@ -36,28 +36,34 @@ function CreateSneaker() {
   }, []);
 
   const handleCreateSneaker = async () => {
-    const response = await fetch(`https://localhost:7187/api/Sneaker`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify({
-        name: name,
-        size: size,
-        price: price,
-        stock: stock,
-        brandId: brandId
-      }),
-    });
 
-    if (response.status === 200) {
-      ToastNotification('success', 'Created a new sneaker');
-      return navigate("../../dashboard");
-    } else if (response.status === 401) {
-      ToastNotification('error', "You don't have the rights to do this");
-    } else {
-      ToastNotification('error', 'Error while creating sneaker');
+    if (brandId == '') {
+      ToastNotification('error', 'Choose a valid brand!');
+    }
+    else {
+      const response = await fetch(`https://localhost:7187/api/Sneaker`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          size: size,
+          price: price,
+          stock: stock,
+          brandId: brandId
+        }),
+      });
+
+      if (response.status === 200) {
+        ToastNotification('success', 'Created a new sneaker');
+        return navigate("../dashboard/sneakers");
+      } else if (response.status === 401) {
+        ToastNotification('error', "You don't have the rights to do this");
+      } else {
+        ToastNotification('error', 'Error while creating sneaker');
+      }
     }
   };
 
