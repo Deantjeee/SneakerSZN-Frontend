@@ -72,19 +72,27 @@ function Browse() {
             {sneakerData.map(sneaker => (
               <>
                 {sneaker.brand.name === brand.name ? (
-                  <div key={sneaker.id} className="w-[32%] mb-4 h-[400px] bg-white rounded-md border-r-4 border-b-4 border-gray-300">
+                  <div key={sneaker.id} className="w-[32%] mb-4 h-[450px] bg-white rounded-md border-r-4 border-b-4 border-gray-300">
                     <div className="w-full h-full">
                       <div className="p-[3%] w-full h-full">
-                        <div className="w-full h-[80%] rounded-md bg-gray-400">
-
+                        <div className="w-full h-[80%] overflow-hidden rounded-md bg-gray-200">
+                          <img src={`data:image/jpeg;base64,${sneaker.image}`} className="w-full h-full" />
                         </div>
-                        <div className="w-full h-[20%] pt-2 flex">
-                          <div className="h-full w-[70%] flex items-center">
-                            {sneaker.brand.name} <br />
-                            {sneaker.name}
+                        <div className="w-full h-[20%] pt-2 flex justify-between">
+                          <div className="h-full flex items-center">
+                            <div>
+                              <span className="font-logo uppercase">
+                                {sneaker.brand.name + " "}
+                                {sneaker.name}
+                              </span> <br />
+                              Size: {sneaker.size} <br />
+                              €{sneaker.price}
+                            </div>
                           </div>
-                          <div className="w-[30%] h-full flex items-center justify-center">
-                            <button className="bg-secondary text-white w-14 h-14 rounded-full"><FontAwesomeIcon icon={faCartShopping} /></button>
+                          <div className="h-full flex items-center ml-auto">
+                            <button className="hover:bg-secondaryHover transition-all bg-secondary text-white w-14 h-14 rounded-full">
+                              <FontAwesomeIcon icon={faCartShopping} />
+                            </button>
                           </div>
                         </div>
                       </div>
