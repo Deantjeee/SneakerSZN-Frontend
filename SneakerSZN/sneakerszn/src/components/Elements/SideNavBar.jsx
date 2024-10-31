@@ -5,9 +5,9 @@ import { faGauge, faBox, faBriefcase } from '@fortawesome/free-solid-svg-icons';
 function SideNavBar() {
 
   const navlinks = [
-    { name: "DASHBOARD", href: "/admin/dashboard/overview", icon: faGauge },
-    { name: "PRODUCTS", href: "/admin/dashboard/sneakers", icon: faBox },
-    { name: "BRANDS", href: "/admin/dashboard/brands", icon: faBriefcase }
+    { id: 1, name: "DASHBOARD", href: "/admin/dashboard/overview", icon: faGauge },
+    { id: 2, name: "PRODUCTS", href: "/admin/dashboard/sneakers", icon: faBox },
+    { id: 3,  name: "BRANDS", href: "/admin/dashboard/brands", icon: faBriefcase }
   ]
 
   return (
@@ -18,7 +18,7 @@ function SideNavBar() {
         </div>
         <div className="mt-10 text-lg w-full">
           {navlinks.map(item => (
-            <div className="w-full mb-1">
+            <div key={item.id} className="w-full mb-1">
               <NavLink to={item.href} className={({ isActive }) => {
                 return "hover:bg-secondaryHover w-full text-white transition-all py-2 block rounded-xl bg-secondary " +
                   (isActive == true

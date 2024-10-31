@@ -1,7 +1,7 @@
 import './App.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Route, Routes, BrowserRouter, Navigate, useNavigate } from "react-router-dom";
+import { Route, Routes, BrowserRouter, Navigate} from "react-router-dom";
 import AllSneakers from './components/Dashboard/Sneakers/AllSneakers';
 import CreateSneaker from './components/Dashboard/Sneakers/CreateSneaker';
 import EditSneaker from './components/Dashboard/Sneakers/EditSneaker';
@@ -30,7 +30,7 @@ function App() {
             </Route>
 
             {/* ACCOUNT ROUTES */}
-            <Route path="account" element={AuthService.isAuthenticated ? <Root/> : <Navigate to="/login"/>}>
+            <Route path="account" element={<ProtectedRoute requiredRole=""><Root /></ProtectedRoute>}>
               <Route path="myorders" element={<MyOrders />} />
             </Route>
 

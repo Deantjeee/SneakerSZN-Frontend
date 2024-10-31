@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { Navigate } from 'react-router-dom';
 import AuthService from '../services/AuthService';
 
 function ProtectedRoute({ children, requiredRole }) {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userRoles, setUserRoles] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchRoles = async () => {
       if (AuthService.isAuthenticated()) {
+        setIsAuthenticated(true);
+
         try {
           const roles = await AuthService.getUserRoles();
           setUserRoles(roles);
@@ -26,14 +29,18 @@ function ProtectedRoute({ children, requiredRole }) {
   }, []);
 
   if (loading) {
-    return null; 
+    return <Suspense fallback={<div>Loading...</div>}></Suspense>; 
   }
 
-  if (userRoles.includes(requiredRole)) {
-    return children;
-  } else {
-    return <Navigate to="/login" />; 
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
   }
+
+  if (requiredRole === "" || userRoles.includes(requiredRole)) {
+    return children;
+  }
+
+  return <Navigate to="/" />;
 }
 
 export default ProtectedRoute;

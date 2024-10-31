@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Table, Button } from "flowbite-react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { Link, redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import ToastNotification from '../../../notifications/ToastNotification';
-import AuthService from '../../../services/AuthService';
 
 function AllSneakers() {
 

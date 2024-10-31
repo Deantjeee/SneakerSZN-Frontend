@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Button } from "flowbite-react";
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
 import ToastNotification from '../../../notifications/ToastNotification';
-import { Label, TextInput, Select } from "flowbite-react";
+import { Label, TextInput} from "flowbite-react";
 
 function CreateBrand() {
   const navigate = useNavigate();
