@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate, useParams } from 'react-router-dom';
-import ToastNotification from '../../notifications/ToastNotification';
+import ToastNotification from '../../../notifications/ToastNotification';
 import { Label, TextInput, Select } from "flowbite-react";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 
@@ -36,6 +36,7 @@ function EditSneaker() {
         setStock(sneakerData.stock);
         setSelectedBrand(sneakerData.brand.name);
         setSelectedBrandId(sneakerData.brand.id);
+        setBrandId(sneakerData.brand.id);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -81,7 +82,7 @@ function EditSneaker() {
 
     if (response.status === 200) {
       ToastNotification('success', 'Updated sneaker');
-      return navigate("../../dashboard")
+      return navigate("../dashboard/sneakers")
     } else {
       ToastNotification('error', 'Error while updating sneaker');
     }
@@ -90,9 +91,10 @@ function EditSneaker() {
   return (
     <div className="w-full h-full">
       <div>
-        <h1 className="text-xl font-bold mb-4 font-logo uppercase">{oldName}</h1>
+        <h1 className="text-xl font-bold mb-3 font-logo uppercase">EDIT {oldName}</h1>
       </div>
-      <div className="flex max-w-md flex-col gap-4">
+      <hr />
+      <div className="flex max-w-md mt-3 flex-col gap-4">
         <div>
           <div className="mb-2 block">
             <Label htmlFor="name" value="Name" />
@@ -125,7 +127,7 @@ function EditSneaker() {
             <option key={selectedBrandId}>{selectedBrand}</option>
             {brands.map((brand) => (
               <>
-                {brand.id == selectedBrandId ? (
+                {brand.id === selectedBrandId ? (
                   <>
                   </>
                 ) : (

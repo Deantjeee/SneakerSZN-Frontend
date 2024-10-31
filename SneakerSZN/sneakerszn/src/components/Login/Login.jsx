@@ -12,7 +12,7 @@ function Login() {
 
   useEffect(() => {
     if(AuthService.isAuthenticated()) {
-      navigate("/");
+      return navigate("/");
     }
   }, [])
 
@@ -21,7 +21,6 @@ function Login() {
 
     try {
       await AuthService.login(email, password);
-      ToastNotification('success', 'Welcome back!');
       return navigate('/admin/dashboard/sneakers'); 
     } catch (error) {
       ToastNotification('error', error.message);

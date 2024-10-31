@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from "flowbite-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
-import ToastNotification from '../../notifications/ToastNotification';
+import ToastNotification from '../../../notifications/ToastNotification';
 import { Label, TextInput, Select } from "flowbite-react";
 
 function CreateSneaker() {
@@ -36,37 +35,44 @@ function CreateSneaker() {
   }, []);
 
   const handleCreateSneaker = async () => {
-    const response = await fetch(`https://localhost:7187/api/Sneaker`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify({
-        name: name,
-        size: size,
-        price: price,
-        stock: stock,
-        brandId: brandId
-      }),
-    });
 
-    if (response.status === 200) {
-      ToastNotification('success', 'Created a new sneaker');
-      return navigate("../../dashboard");
-    } else if (response.status === 401) {
-      ToastNotification('error', "You don't have the rights to do this");
-    } else {
-      ToastNotification('error', 'Error while creating sneaker');
+    if (brandId == '') {
+      ToastNotification('error', 'Choose a valid brand!');
+    }
+    else {
+      const response = await fetch(`https://localhost:7187/api/Sneaker`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          size: size,
+          price: price,
+          stock: stock,
+          brandId: brandId
+        }),
+      });
+
+      if (response.status === 200) {
+        ToastNotification('success', 'Created a new sneaker');
+        return navigate("../dashboard/sneakers");
+      } else if (response.status === 401) {
+        ToastNotification('error', "You don't have the rights to do this");
+      } else {
+        ToastNotification('error', 'Error while creating sneaker');
+      }
     }
   };
 
   return (
     <div className="w-full h-full">
       <div>
-        <h1 className="text-xl font-bold mb-4 font-logo">CREATE NEW SNEAKER</h1>
+        <h1 className="text-xl font-bold mb-3 font-logo">CREATE NEW PRODUCT</h1>
       </div>
-      <div className="flex max-w-md flex-col gap-4">
+      <hr />
+      <div className="flex max-w-md flex-col mt-3 gap-4">
         <div>
           <div className="mb-2 block">
             <Label className="w-full" htmlFor="small" value="Name" />

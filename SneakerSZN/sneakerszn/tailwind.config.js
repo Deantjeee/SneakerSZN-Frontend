@@ -9,7 +9,8 @@ module.exports = {
       colors: {
         main: "#77D4FC",
         secondary: "#03335D",
-        secondaryHover: "#065196"
+        secondaryHover: "#065196",
+        backgroundLight: "#F6F6F6"
       },
       fontFamily: {
         logo: ['"Fugaz One"', 'sans-serif']

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate, useParams } from 'react-router-dom';
-import ToastNotification from '../../notifications/ToastNotification';
-import { Label, TextInput, Select } from "flowbite-react";
+import ToastNotification from '../../../notifications/ToastNotification';
+import { Label, TextInput } from "flowbite-react";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 
 function EditBrand() {
@@ -57,9 +57,10 @@ function EditBrand() {
   return (
     <div className="w-full h-full">
       <div>
-        <h1 className="text-xl font-bold mb-4 font-logo uppercase">EDIT {oldName}</h1>
+        <h1 className="text-xl font-bold mb-3 font-logo uppercase">EDIT {oldName}</h1>
       </div>
-      <div className="flex max-w-md flex-col gap-4">
+      <hr />
+      <div className="flex max-w-md flex-col mt-3 gap-4">
         <div>
           <div className="mb-2 block">
             <Label className="w-full" htmlFor="small" value="Name" />
