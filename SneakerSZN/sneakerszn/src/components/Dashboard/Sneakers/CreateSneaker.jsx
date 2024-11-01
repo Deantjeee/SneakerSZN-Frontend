@@ -14,6 +14,7 @@ function CreateSneaker() {
   const [stock, setStock] = useState('');
   const [brandId, setBrandId] = useState('');
   const [brands, setBrands] = useState([]);
+  const [imageFile, setImageFile] = useState(null); // New state for image file
 
   useEffect(() => {
     const fetchBrands = async () => {
@@ -35,34 +36,38 @@ function CreateSneaker() {
   }, []);
 
   const handleCreateSneaker = async () => {
-
-    if (brandId == '') {
+    if (!brandId) {
       ToastNotification('error', 'Choose a valid brand!');
+      return;
     }
-    else {
+
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("size", size);
+    formData.append("price", price);
+    formData.append("stock", stock);
+    formData.append("brandId", brandId);
+    if (imageFile) {
+      formData.append("imageFile", imageFile); // Add image file to the form data
+    }
+
+    try {
       const response = await fetch(`https://localhost:7187/api/Sneaker`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
-        body: JSON.stringify({
-          name: name,
-          size: size,
-          price: price,
-          stock: stock,
-          brandId: brandId
-        }),
+        body: formData // Use formData as the body
       });
 
       if (response.status === 200) {
         ToastNotification('success', 'Created a new sneaker');
-        return navigate("../dashboard/sneakers");
+        navigate("../dashboard/sneakers");
       } else if (response.status === 401) {
         ToastNotification('error', "You don't have the rights to do this");
       } else {
         ToastNotification('error', 'Error while creating sneaker');
       }
+    } catch (error) {
+      console.error('Error creating sneaker:', error);
+      ToastNotification('error', 'Error while creating sneaker');
     }
   };
 
@@ -75,27 +80,27 @@ function CreateSneaker() {
       <div className="flex max-w-md flex-col mt-3 gap-4">
         <div>
           <div className="mb-2 block">
-            <Label className="w-full" htmlFor="small" value="Name" />
+            <Label className="w-full" htmlFor="name" value="Name" />
           </div>
-          <TextInput id="small" type="text" onChange={(e) => setName(e.target.value)} sizing="sm" />
+          <TextInput id="name" type="text" onChange={(e) => setName(e.target.value)} sizing="sm" />
         </div>
         <div>
           <div className="mb-2 block">
-            <Label htmlFor="small" value="Size" />
+            <Label htmlFor="size" value="Size" />
           </div>
-          <TextInput id="small" type="text" onChange={(e) => setSize(e.target.value)} sizing="sm" />
+          <TextInput id="size" type="text" onChange={(e) => setSize(e.target.value)} sizing="sm" />
         </div>
         <div>
           <div className="mb-2 block">
-            <Label htmlFor="small" value="Price" />
+            <Label htmlFor="price" value="Price" />
           </div>
-          <TextInput id="small" type="number" onChange={(e) => setPrice(e.target.value)} sizing="sm" />
+          <TextInput id="price" type="number" onChange={(e) => setPrice(e.target.value)} sizing="sm" />
         </div>
         <div>
           <div className="mb-2 block">
-            <Label htmlFor="small" value="Stock" />
+            <Label htmlFor="stock" value="Stock" />
           </div>
-          <TextInput id="small" type="number" onChange={(e) => setStock(e.target.value)} sizing="sm" />
+          <TextInput id="stock" type="number" onChange={(e) => setStock(e.target.value)} sizing="sm" />
         </div>
         <div>
           <div className="mb-2 block">
@@ -110,8 +115,22 @@ function CreateSneaker() {
             ))}
           </Select>
         </div>
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="image" value="Sneaker Image" />
+          </div>
+          <input
+            type="file"
+            id="image"
+            accept="image/*"
+            onChange={(e) => setImageFile(e.target.files[0])}
+          />
+        </div>
       </div>
-      <button onClick={handleCreateSneaker} className="px-10 mt-10 py-2 transition-all rounded-md hover:bg-secondaryHover flex font-logo bg-secondary text-white">
+      <button
+        onClick={handleCreateSneaker}
+        className="px-10 mt-10 py-2 transition-all rounded-md hover:bg-secondaryHover flex font-logo bg-secondary text-white"
+      >
         CREATE NEW <p className='ml-2'><FontAwesomeIcon icon={faPlus} /></p>
       </button>
     </div>

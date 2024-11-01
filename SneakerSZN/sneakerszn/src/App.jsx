@@ -1,7 +1,7 @@
 import './App.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Route, Routes, BrowserRouter, Navigate} from "react-router-dom";
+import { Route, Routes, BrowserRouter, Navigate } from "react-router-dom";
 import AllSneakers from './components/Dashboard/Sneakers/AllSneakers';
 import CreateSneaker from './components/Dashboard/Sneakers/CreateSneaker';
 import EditSneaker from './components/Dashboard/Sneakers/EditSneaker';
@@ -16,6 +16,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoot from './AdminRoot';
 import MyOrders from './components/Orders/MyOrders';
 import AuthService from './services/AuthService';
+import Browse from './components/Customer/Browse';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Routes>
           <Route path="/">
             <Route path="" element={<Root />}>
+              <Route path="" element={<Browse />} />
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />
             </Route>

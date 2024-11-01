@@ -31,7 +31,7 @@ function NavBar() {
   };
 
   return (
-    <div className='w-full py-5 justify-center bg-main font-logo text-secondary flex shadow-md'>
+    <div className='w-full py-5 justify-center fixed shadow-md bg-main font-logo text-secondary flex'>
       <div className="w-[98%] md:w-[80%] flex">
         <div id="logo" className="text-3xl flex items-center">
           <Link to="/">

@@ -6,9 +6,7 @@ import { Label, TextInput, Select } from "flowbite-react";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 
 function EditSneaker() {
-
   const navigate = useNavigate();
-
   const { id } = useParams();
   const [oldName, setOldName] = useState('');
   const [name, setName] = useState('');
@@ -19,13 +17,15 @@ function EditSneaker() {
   const [selectedBrandId, setSelectedBrandId] = useState('');
   const [brandId, setBrandId] = useState('');
   const [brands, setBrands] = useState([]);
+  const [imageFile, setImageFile] = useState(null); // State for the new image file
+  const [originalImage, setOriginalImage] = useState(''); // State for the original image
 
   useEffect(() => {
     const fetchSneaker = async () => {
       try {
         const response = await fetch(`https://localhost:7187/api/Sneaker/${id}`);
         if (!response.ok) {
-          throw new Error('Failed to fetch shoe');
+          throw new Error('Failed to fetch sneaker');
         }
         const sneakerData = await response.json();
 
@@ -37,6 +37,8 @@ function EditSneaker() {
         setSelectedBrand(sneakerData.brand.name);
         setSelectedBrandId(sneakerData.brand.id);
         setBrandId(sneakerData.brand.id);
+        setOriginalImage(`data:image/png;base64, ${sneakerData.image}`);
+
       } catch (error) {
         console.error('Error:', error);
       }
@@ -65,28 +67,29 @@ function EditSneaker() {
   }, []);
 
   const handleUpdateSneaker = async () => {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("size", size);
+    formData.append("price", price);
+    formData.append("stock", stock);
+    formData.append("brandId", brandId);
+
+    if (imageFile) {
+      formData.append("imageFile", imageFile);
+    }
+
     const response = await fetch(`https://localhost:7187/api/Sneaker/${id}`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify({
-        name: name,
-        size: size,
-        price: price,
-        stock: stock,
-        brandId: brandId
-      }),
+      body: formData,
     });
 
     if (response.status === 200) {
       ToastNotification('success', 'Updated sneaker');
-      return navigate("../dashboard/sneakers")
+      return navigate("../dashboard/sneakers");
     } else {
       ToastNotification('error', 'Error while updating sneaker');
     }
-  }
+  };
 
   return (
     <div className="w-full h-full">
@@ -126,27 +129,33 @@ function EditSneaker() {
           <Select id="brand" value={brandId} onChange={(e) => setBrandId(e.target.value)} required>
             <option key={selectedBrandId}>{selectedBrand}</option>
             {brands.map((brand) => (
-              <>
-                {brand.id === selectedBrandId ? (
-                  <>
-                  </>
-                ) : (
-                  <>
-                    <option key={brand.id} value={brand.id}>
-                      {brand.name}
-                    </option>
-                  </>
-                )}
-              </>
+              brand.id !== selectedBrandId && (
+                <option key={brand.id} value={brand.id}>
+                  {brand.name}
+                </option>
+              )
             ))}
           </Select>
+        </div>
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="imageFile" value="Image" />
+          </div>
+          {originalImage && (
+            <div className="mb-4">
+              <img src={originalImage} alt="Original Sneaker" className="h-32 w-auto object-contain mb-2" />
+              <p>Current Image</p>
+            </div>
+          )}
+          <input className='w-full rounded-md border-2 file:bg-red-600' type="file" id="imageFile" onChange={(e) => setImageFile(e.target.files[0])} />
+          <p className="text-sm text-gray-500">Leave empty to keep the original image.</p>
         </div>
       </div>
       <button onClick={handleUpdateSneaker} className="px-10 mt-10 py-2 transition-all rounded-md hover:bg-secondaryHover flex font-logo bg-secondary text-white">
         FINALIZE EDIT <p className='ml-2'><FontAwesomeIcon icon={faPen} /></p>
       </button>
     </div>
-  )
+  );
 }
 
-export default EditSneaker
+export default EditSneaker;
