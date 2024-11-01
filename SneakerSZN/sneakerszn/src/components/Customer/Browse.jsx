@@ -86,7 +86,7 @@ function Browse() {
                                 {sneaker.name}
                               </span> <br />
                               Size: {sneaker.size} <br />
-                              €{sneaker.price}
+                              € {sneaker.price}
                             </div>
                           </div>
                           <div className="h-full flex items-center ml-auto">

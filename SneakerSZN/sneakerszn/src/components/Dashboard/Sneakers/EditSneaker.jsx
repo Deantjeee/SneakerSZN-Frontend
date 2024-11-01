@@ -38,7 +38,7 @@ function EditSneaker() {
         setSelectedBrandId(sneakerData.brand.id);
         setBrandId(sneakerData.brand.id);
         setOriginalImage(`data:image/png;base64, ${sneakerData.image}`);
-        
+
       } catch (error) {
         console.error('Error:', error);
       }
@@ -67,7 +67,7 @@ function EditSneaker() {
   }, []);
 
   const handleUpdateSneaker = async () => {
-    const formData = new FormData(); // Use FormData for file upload
+    const formData = new FormData();
     formData.append("name", name);
     formData.append("size", size);
     formData.append("price", price);
@@ -75,7 +75,7 @@ function EditSneaker() {
     formData.append("brandId", brandId);
 
     if (imageFile) {
-      formData.append("imageFile", imageFile); // Add image file to form data if selected
+      formData.append("imageFile", imageFile);
     }
 
     const response = await fetch(`https://localhost:7187/api/Sneaker/${id}`, {
@@ -98,12 +98,6 @@ function EditSneaker() {
       </div>
       <hr />
       <div className="flex max-w-md mt-3 flex-col gap-4">
-        {originalImage && ( // Display original image if it exists
-          <div className="mb-4">  
-            <img src={originalImage} alt="Original Sneaker" className="h-32 w-auto object-contain mb-2" />
-            <p>Current Image</p>
-          </div>
-        )}
         <div>
           <div className="mb-2 block">
             <Label htmlFor="name" value="Name" />
@@ -145,10 +139,16 @@ function EditSneaker() {
         </div>
         <div>
           <div className="mb-2 block">
-            <Label htmlFor="imageFile" value="Upload Image" />
+            <Label htmlFor="imageFile" value="Image" />
           </div>
-          <input type="file" id="imageFile" onChange={(e) => setImageFile(e.target.files[0])} />
-          <p className="text-sm text-gray-500">Leave blank to keep the original image.</p>
+          {originalImage && (
+            <div className="mb-4">
+              <img src={originalImage} alt="Original Sneaker" className="h-32 w-auto object-contain mb-2" />
+              <p>Current Image</p>
+            </div>
+          )}
+          <input className='w-full rounded-md border-2 file:bg-red-600' type="file" id="imageFile" onChange={(e) => setImageFile(e.target.files[0])} />
+          <p className="text-sm text-gray-500">Leave empty to keep the original image.</p>
         </div>
       </div>
       <button onClick={handleUpdateSneaker} className="px-10 mt-10 py-2 transition-all rounded-md hover:bg-secondaryHover flex font-logo bg-secondary text-white">
