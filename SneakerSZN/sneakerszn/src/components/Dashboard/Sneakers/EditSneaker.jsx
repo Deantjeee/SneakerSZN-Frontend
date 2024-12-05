@@ -23,7 +23,7 @@ function EditSneaker() {
   useEffect(() => {
     const fetchSneaker = async () => {
       try {
-        const response = await fetch(`https://localhost:7187/api/Sneaker/${id}`);
+        const response = await fetch(`http://localhost:5000/api/Sneaker/${id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch sneaker');
         }
@@ -50,7 +50,7 @@ function EditSneaker() {
   useEffect(() => {
     const fetchBrands = async () => {
       try {
-        const response = await fetch(`https://localhost:7187/api/Brand`);
+        const response = await fetch(`http://localhost:5000/api/Brand`);
         if (response.ok) {
           const data = await response.json();
           setBrands(data);
@@ -78,7 +78,7 @@ function EditSneaker() {
       formData.append("imageFile", imageFile);
     }
 
-    const response = await fetch(`https://localhost:7187/api/Sneaker/${id}`, {
+    const response = await fetch(`http://localhost:5000/api/Sneaker/${id}`, {
       method: "PUT",
       body: formData,
     });

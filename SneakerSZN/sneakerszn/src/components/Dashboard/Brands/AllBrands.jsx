@@ -9,7 +9,7 @@ function AllBrands() {
   const [data, setData] = useState([]);
 
   const fetchBrands = () => {
-    fetch('https://localhost:7187/api/Brand')
+    fetch('http://localhost:5000/api/Brand')
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -29,7 +29,7 @@ function AllBrands() {
   }, []);
 
   async function handleDelete(id) {
-    const response = await fetch(`https://localhost:7187/api/Brand/${id}`, {
+    const response = await fetch(`http://localhost:5000/api/Brand/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

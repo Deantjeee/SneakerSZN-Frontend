@@ -5,8 +5,8 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 function Browse() {
 
   const [sneakerData, setSneakerData] = useState([]);
-  const [brandData, setBrandData] = useState([]);
   const [usableBrands, setUsableBrands] = useState([]);
+  const [brandData, setBrandData] = useState([]);
 
   const fetchUsableBrands = () => {
     const usableBrandsAsMap = {};
@@ -19,7 +19,7 @@ function Browse() {
   };
 
   const fetchSneakers = () => {
-    fetch('https://localhost:7187/api/Sneaker')
+    fetch('http://localhost:5000/api/Sneaker')
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -35,7 +35,7 @@ function Browse() {
   };
 
   const fetchBrands = () => {
-    fetch('https://localhost:7187/api/Brand')
+    fetch('http://localhost:5000/api/Brand')
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

@@ -11,7 +11,7 @@ function CreateBrand() {
   const [name, setName] = useState('');
 
   const handleCreate = async () => {
-    const response = await fetch(`https://localhost:7187/api/Brand`, {
+    const response = await fetch(`http://localhost:5000/api/Brand`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

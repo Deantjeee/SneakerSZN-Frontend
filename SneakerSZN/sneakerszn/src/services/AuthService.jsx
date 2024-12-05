@@ -7,7 +7,7 @@ class AuthService {
       throw new Error('No authentication token found');
     }
 
-    const response = await fetch('https://localhost:7187/api/User/roles', {
+    const response = await fetch('http://localhost:5000/api/User/roles', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -31,7 +31,7 @@ class AuthService {
         throw new Error('No authentication token found');
       }
 
-      const response = await fetch('https://localhost:7187/api/User/info', {
+      const response = await fetch('http://localhost:5000/api/User/info', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`, 
@@ -54,7 +54,7 @@ class AuthService {
 
   async login(email, password) {
     try {
-      const response = await fetch('https://localhost:7187/login', {
+      const response = await fetch('http://localhost:5000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

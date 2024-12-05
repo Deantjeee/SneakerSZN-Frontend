@@ -15,7 +15,7 @@ function EditBrand() {
   useEffect(() => {
     const fetchBrand = async () => {
       try {
-        const response = await fetch(`https://localhost:7187/api/Brand/${id}`);
+        const response = await fetch(`http://localhost:5000/api/Brand/${id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch brand');
         }
@@ -33,7 +33,7 @@ function EditBrand() {
   }, [id]);
 
   const handleUpdate = async () => {
-    const response = await fetch(`https://localhost:7187/api/Brand/${id}`, {
+    const response = await fetch(`http://localhost:7187/api/Brand/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

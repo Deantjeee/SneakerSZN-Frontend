@@ -14,12 +14,12 @@ function CreateSneaker() {
   const [stock, setStock] = useState('');
   const [brandId, setBrandId] = useState('');
   const [brands, setBrands] = useState([]);
-  const [imageFile, setImageFile] = useState(null); // New state for image file
+  const [imageFile, setImageFile] = useState(null);
 
   useEffect(() => {
     const fetchBrands = async () => {
       try {
-        const response = await fetch(`https://localhost:7187/api/Brand`);
+        const response = await fetch(`http://localhost:5000/api/Brand`);
         if (response.ok) {
           const data = await response.json();
           setBrands(data);
@@ -48,13 +48,13 @@ function CreateSneaker() {
     formData.append("stock", stock);
     formData.append("brandId", brandId);
     if (imageFile) {
-      formData.append("imageFile", imageFile); // Add image file to the form data
+      formData.append("imageFile", imageFile); 
     }
 
     try {
-      const response = await fetch(`https://localhost:7187/api/Sneaker`, {
+      const response = await fetch(`http://localhost:7187/api/Sneaker`, {
         method: "POST",
-        body: formData // Use formData as the body
+        body: formData 
       });
 
       if (response.status === 200) {
