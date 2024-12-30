@@ -38,10 +38,10 @@ function AllBrands() {
     });
 
     if (response.status === 200) {
-      ToastNotification('success', 'Deleted sneaker');
+      ToastNotification('success', 'Deleted brand');
       fetchBrands();
     } else {
-      ToastNotification('error', 'Error while deleting sneaker');
+      ToastNotification('error', 'Error while deleting brand');
     }
   }
 

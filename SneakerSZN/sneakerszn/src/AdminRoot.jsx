@@ -20,7 +20,7 @@ function AdminRoot() {
           </div>
         </div>
       </div>
-      <ToastContainer />
+      <ToastContainer id="toast" />
     </>
   )
 }

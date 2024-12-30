@@ -33,7 +33,7 @@ function EditBrand() {
   }, [id]);
 
   const handleUpdate = async () => {
-    const response = await fetch(`http://localhost:7187/api/Brand/${id}`, {
+    const response = await fetch(`http://localhost:5000/api/Brand/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -45,7 +45,7 @@ function EditBrand() {
     });
 
     if (response.status === 200) {
-      ToastNotification('success', 'Created a new brand');
+      ToastNotification('success', 'Succesfully updated brand');
       return navigate("../dashboard/brands");
     } else if (response.status === 401) {
       ToastNotification('error', "You don't have the rights to do this");

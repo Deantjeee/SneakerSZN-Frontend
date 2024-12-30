@@ -1,13 +1,22 @@
 // @ts-check
 import { test, expect } from '@playwright/test';
 
-test('Loading Brands', async ({ page }) => {
+test('Loading brands', async ({ page }) => {
   await page.goto('http://localhost:3000/');
   await page.getByRole('button', { name: 'LOGIN' }).click();
-  await page.getByLabel('Your email').click();
   await page.getByLabel('Your email').fill('admin@gmail.com');
-  await page.getByLabel('Your password').click();
   await page.getByLabel('Your password').fill('test1234');
+
+  await page.route('*/**/api/Brand', async route => {
+    const json = [
+      {
+        "id": 1,
+        "name": "Nike",
+        "sneakers": null
+      }]
+    await route.fulfill({ json });
+  });
+
   await page.getByRole('button', { name: 'LOG IN' }).click();
   
   await page.route('*/**/api/Brand', async route => {
@@ -28,9 +37,7 @@ test('Loading Brands', async ({ page }) => {
 test('Creating new brand', async ({ page }) => {
   await page.goto('http://localhost:3000/');
   await page.getByRole('button', { name: 'LOGIN' }).click();
-  await page.getByLabel('Your email').click();
   await page.getByLabel('Your email').fill('admin@gmail.com');
-  await page.getByLabel('Your password').click();
   await page.getByLabel('Your password').fill('test1234');
   await page.getByRole('button', { name: 'LOG IN' }).click();
   
@@ -72,8 +79,173 @@ test('Creating new brand', async ({ page }) => {
   });
 
   await page.getByRole('button', { name: 'CREATE NEW' }).click();
-  await expect(page.locator('[id="\\31 "]')).toBeVisible(); //Toast Notification Box
+  await expect(
+    page.getByRole('alert')
+  ).toHaveText('Created a new brand');
   await expect(page.getByRole('cell', { name: 'Puma' })).toBeVisible();
 });
 
+test('Creating new brand, with empty name', async ({ page }) => {
+  await page.goto('http://localhost:3000/');
+  await page.getByRole('button', { name: 'LOGIN' }).click();
+  await page.getByLabel('Your email').fill('admin@gmail.com');
+  await page.getByLabel('Your password').fill('test1234');
+
+  await page.route('*/**/api/Brand', async route => {
+    const json = [
+      {
+        "id": 1,
+        "name": "Nike",
+        "sneakers": null
+      }]
+    await route.fulfill({ json });
+  });
+
+  await page.getByRole('button', { name: 'LOG IN' }).click();
+
+  await page.route('*/**/api/Brand', async route => {
+    const json = [
+      {
+        "id": 1,
+        "name": "Nike",
+        "sneakers": null
+      }]
+    await route.fulfill({ json });
+  });
+
+  await page.getByRole('link', { name: 'BRANDS' }).click();
+  await page.getByRole('button', { name: 'CREATE NEW' }).click();
+  await page.getByRole('button', { name: 'CREATE NEW' }).click();
+
+  await expect(
+    page.getByRole('alert')
+  ).toHaveText('Every field needs to be filled in!');
+
+});
+
+test('Editing a brand', async ({ page }) => {
+  await page.goto('http://localhost:3000/');
+  await page.getByRole('button', { name: 'LOGIN' }).click();
+  await page.getByLabel('Your email').fill('admin@gmail.com');
+  await page.getByLabel('Your password').fill('test1234');
+
+  await page.route('*/**/api/Brand', async route => {
+    const json = [
+      {
+        "id": 1,
+        "name": "Nike",
+        "sneakers": null
+      }]
+    await route.fulfill({ json });
+  });
+
+  await page.getByRole('button', { name: 'LOG IN' }).click();
+  
+  await page.route('*/**/api/Brand', async route => {
+    const json = [
+      {
+        "id": 1,
+        "name": "Nike",
+        "sneakers": null
+      }]
+    await route.fulfill({ json });
+  });
+
+  await page.getByRole('link', { name: 'BRANDS' }).click();
+  await expect(page.getByRole('cell', { name: 'Nike' })).toBeVisible();
+  await page.getByRole('link', { name: 'Edit' }).click();
+  await page.getByLabel('Name').fill("Adidas");
+
+  await page.route('*/**/api/Brand/**', async route => {
+    const json = { "name": "Adidas"}
+    await route.fulfill({ json });
+  });
+
+  await page.route('*/**/api/Brand', async route => {
+    const json = [
+      {
+        "id": 1,
+        "name": "Adidas",
+        "sneakers": null
+      }]
+    await route.fulfill({ json });
+  });
+
+  await page.getByRole('button', { name: 'FINALIZE EDIT' }).click();
+  await expect(
+    page.getByRole('alert')
+  ).toHaveText('Succesfully updated brand');
+  await expect(page.getByRole('cell', { name: 'Adidas' })).toBeVisible();
+
+});
+
+test('Deleting a brand', async ({ page }) => {
+  // Navigate to the app and log in
+  await page.goto('http://localhost:3000/');
+  await page.getByRole('button', { name: 'LOGIN' }).click();
+  await page.getByLabel('Your email').fill('admin@gmail.com');
+  await page.getByLabel('Your password').fill('test1234');
+
+  await page.route('**/api/Brand', async route => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify([
+        { id: 1, name: 'Nike', sneakers: null },
+        { id: 2, name: 'Adidas', sneakers: null }
+      ]),
+    });
+  });
+
+  await page.getByRole('button', { name: 'LOG IN' }).click();
+
+  // Mock GET /api/Brand (Initial list of brands)
+  await page.route('**/api/Brand', async route => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify([
+        { id: 1, name: 'Nike', sneakers: null },
+        { id: 2, name: 'Adidas', sneakers: null }
+      ]),
+    });
+  });
+
+  await page.getByRole('link', { name: 'BRANDS' }).click();
+  await expect(page.getByRole('cell', { name: 'Nike' })).toBeVisible();
+  await expect(page.getByRole('cell', { name: 'Adidas' })).toBeVisible();
+
+  // Mock DELETE /api/Brand/1 (Deleting Nike)
+  await page.route('**/api/Brand/1', async route => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ message: 'Deleted successfully' }),
+    });
+  });
+
+  // Mock GET /api/Brand (After Deletion)
+  await page.route('**/api/Brand', async route => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify([
+        { id: 2, name: 'Adidas', sneakers: null }
+      ]),
+    });
+  });
+
+  // Click the delete button
+  await page.getByRole('row', { name: 'Nike Edit Delete' })
+    .getByRole('button', { name: 'Delete' })
+    .click();
+
+    await expect(
+      page.getByRole('alert')
+    ).toHaveText('Deleted brand');
+
+  // Assert that 'Nike' is removed from the table
+  await expect(page.getByRole('cell', { name: 'Nike' })).not.toBeVisible();
+  await expect(page.getByRole('cell', { name: 'Adidas' })).toBeVisible();
+});
 
