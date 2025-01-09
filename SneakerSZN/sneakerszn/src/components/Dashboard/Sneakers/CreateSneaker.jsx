@@ -36,38 +36,42 @@ function CreateSneaker() {
   }, []);
 
   const handleCreateSneaker = async () => {
-    if (!brandId) {
-      ToastNotification('error', 'Choose a valid brand!');
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("size", size);
-    formData.append("price", price);
-    formData.append("stock", stock);
-    formData.append("brandId", brandId);
-    if (imageFile) {
-      formData.append("imageFile", imageFile); 
-    }
-
-    try {
-      const response = await fetch(`http://localhost:7187/api/Sneaker`, {
-        method: "POST",
-        body: formData 
-      });
-
-      if (response.status === 200) {
-        ToastNotification('success', 'Created a new sneaker');
-        navigate("../dashboard/sneakers");
-      } else if (response.status === 401) {
-        ToastNotification('error', "You don't have the rights to do this");
-      } else {
+    if(name === "" || size === "" || price === "" || stock === "" || brandId == null ) {
+      ToastNotification('error', 'Not all inputs are filled in!');
+    } else {
+      if (!brandId) {
+        ToastNotification('error', 'Choose a valid brand!');
+        return;
+      }
+  
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("size", size);
+      formData.append("price", price);
+      formData.append("stock", stock);
+      formData.append("brandId", brandId);
+      if (imageFile) {
+        formData.append("imageFile", imageFile); 
+      }
+  
+      try {
+        const response = await fetch(`http://localhost:7187/api/Sneaker`, {
+          method: "POST",
+          body: formData 
+        });
+  
+        if (response.status === 200) {
+          ToastNotification('success', 'Created a new sneaker');
+          navigate("../dashboard/sneakers");
+        } else if (response.status === 401) {
+          ToastNotification('error', "You don't have the rights to do this");
+        } else {
+          ToastNotification('error', 'Error while creating sneaker');
+        }
+      } catch (error) {
+        console.error('Error creating sneaker:', error);
         ToastNotification('error', 'Error while creating sneaker');
       }
-    } catch (error) {
-      console.error('Error creating sneaker:', error);
-      ToastNotification('error', 'Error while creating sneaker');
     }
   };
 

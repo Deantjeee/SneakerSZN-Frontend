@@ -180,7 +180,6 @@ test('Editing a brand', async ({ page }) => {
 });
 
 test('Deleting a brand', async ({ page }) => {
-  // Navigate to the app and log in
   await page.goto('http://localhost:3000/');
   await page.getByRole('button', { name: 'LOGIN' }).click();
   await page.getByLabel('Your email').fill('admin@gmail.com');
@@ -199,7 +198,6 @@ test('Deleting a brand', async ({ page }) => {
 
   await page.getByRole('button', { name: 'LOG IN' }).click();
 
-  // Mock GET /api/Brand (Initial list of brands)
   await page.route('**/api/Brand', async route => {
     await route.fulfill({
       status: 200,
@@ -215,7 +213,6 @@ test('Deleting a brand', async ({ page }) => {
   await expect(page.getByRole('cell', { name: 'Nike' })).toBeVisible();
   await expect(page.getByRole('cell', { name: 'Adidas' })).toBeVisible();
 
-  // Mock DELETE /api/Brand/1 (Deleting Nike)
   await page.route('**/api/Brand/1', async route => {
     await route.fulfill({
       status: 200,
@@ -224,7 +221,6 @@ test('Deleting a brand', async ({ page }) => {
     });
   });
 
-  // Mock GET /api/Brand (After Deletion)
   await page.route('**/api/Brand', async route => {
     await route.fulfill({
       status: 200,
@@ -235,7 +231,6 @@ test('Deleting a brand', async ({ page }) => {
     });
   });
 
-  // Click the delete button
   await page.getByRole('row', { name: 'Nike Edit Delete' })
     .getByRole('button', { name: 'Delete' })
     .click();
@@ -244,7 +239,6 @@ test('Deleting a brand', async ({ page }) => {
       page.getByRole('alert')
     ).toHaveText('Deleted brand');
 
-  // Assert that 'Nike' is removed from the table
   await expect(page.getByRole('cell', { name: 'Nike' })).not.toBeVisible();
   await expect(page.getByRole('cell', { name: 'Adidas' })).toBeVisible();
 });
