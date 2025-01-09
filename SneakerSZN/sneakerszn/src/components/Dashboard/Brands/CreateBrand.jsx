@@ -11,24 +11,30 @@ function CreateBrand() {
   const [name, setName] = useState('');
 
   const handleCreate = async () => {
-    const response = await fetch(`http://localhost:5000/api/Brand`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify({
-        name: name,
-      }),
-    });
 
-    if (response.status === 200) {
-      ToastNotification('success', 'Created a new brand');
-      return navigate("../dashboard/brands");
-    } else if (response.status === 401) {
-      ToastNotification('error', "You don't have the rights to do this");
-    } else {
-      ToastNotification('error', 'Error while creating brand');
+    if(name === null || name === "") {
+      ToastNotification('error', 'Every field needs to be filled in!');
+    }
+    else {
+      const response = await fetch(`http://localhost:5000/api/Brand`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+        }),
+      });
+  
+      if (response.status === 200) {
+        ToastNotification('success', 'Created a new brand');
+        return navigate("../dashboard/brands");
+      } else if (response.status === 401) {
+        ToastNotification('error', "You don't have the rights to do this");
+      } else {
+        ToastNotification('error', 'Error while creating brand');
+      }
     }
   };
 
