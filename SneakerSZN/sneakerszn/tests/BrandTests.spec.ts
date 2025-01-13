@@ -91,35 +91,31 @@ test('Creating new brand, with empty name', async ({ page }) => {
   await page.getByLabel('Your email').fill('admin@gmail.com');
   await page.getByLabel('Your password').fill('test1234');
 
-  await page.route('*/**/api/Brand', async route => {
-    const json = [
-      {
-        "id": 1,
-        "name": "Nike",
-        "sneakers": null
-      }]
-    await route.fulfill({ json });
-  });
-
   await page.getByRole('button', { name: 'LOG IN' }).click();
-
-  await page.route('*/**/api/Brand', async route => {
-    const json = [
-      {
-        "id": 1,
-        "name": "Nike",
-        "sneakers": null
-      }]
-    await route.fulfill({ json });
-  });
 
   await page.getByRole('link', { name: 'BRANDS' }).click();
   await page.getByRole('button', { name: 'CREATE NEW' }).click();
+  await page.getByLabel('Name').fill('');
   await page.getByRole('button', { name: 'CREATE NEW' }).click();
 
-  await expect(
-    page.getByRole('alert')
-  ).toHaveText('Every field needs to be filled in!');
+  await expect(page.getByText('Brand name is required.')).toBeVisible();
+
+});
+
+test('Creating new brand, brand name exceeds 20 characters', async ({ page }) => {
+  await page.goto('http://localhost:3000/');
+  await page.getByRole('button', { name: 'LOGIN' }).click();
+  await page.getByLabel('Your email').fill('admin@gmail.com');
+  await page.getByLabel('Your password').fill('test1234');
+
+  await page.getByRole('button', { name: 'LOG IN' }).click();
+
+  await page.getByRole('link', { name: 'BRANDS' }).click();
+  await page.getByRole('button', { name: 'CREATE NEW' }).click();
+  await page.getByLabel('Name').fill('1234567890 1234567890');
+  await page.getByRole('button', { name: 'CREATE NEW' }).click();
+
+  await expect(page.getByText('Brand name cannot exceed 20 characters.')).toBeVisible();
 
 });
 
