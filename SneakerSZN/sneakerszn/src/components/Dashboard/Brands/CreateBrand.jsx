@@ -3,19 +3,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
 import ToastNotification from '../../../notifications/ToastNotification';
-import { Label, TextInput} from "flowbite-react";
+import { Label, TextInput } from "flowbite-react";
 
 function CreateBrand() {
   const navigate = useNavigate();
 
   const [name, setName] = useState('');
+  const [errors, setErrors] = useState([]); // State for error messages
 
   const handleCreate = async () => {
+    setErrors([]); // Clear previous errors
 
-    if(name === null || name === "") {
-      ToastNotification('error', 'Every field needs to be filled in!');
-    }
-    else {
+    try {
       const response = await fetch(`http://localhost:5000/api/Brand`, {
         method: "POST",
         headers: {
@@ -26,15 +25,27 @@ function CreateBrand() {
           name: name,
         }),
       });
-  
+
       if (response.status === 200) {
         ToastNotification('success', 'Created a new brand');
         return navigate("../dashboard/brands");
+      } else if (response.status === 400) {
+        const data = await response.json();
+        if (data.errors) {
+          // Parse ModelState errors
+          const errorMessages = Object.values(data.errors).flat();
+          setErrors(errorMessages);
+        } else {
+          ToastNotification('error', 'Invalid input');
+        }
       } else if (response.status === 401) {
         ToastNotification('error', "You don't have the rights to do this");
       } else {
         ToastNotification('error', 'Error while creating brand');
       }
+    } catch (error) {
+      ToastNotification('error', 'An unexpected error occurred');
+      console.error(error);
     }
   };
 
@@ -49,14 +60,27 @@ function CreateBrand() {
           <div className="mb-2 block">
             <Label className="w-full" htmlFor="small" value="Name" />
           </div>
-          <TextInput id="small" type="text" onChange={(e) => setName(e.target.value)} sizing="sm" />
+          <TextInput id="small" placeholder="Enter brand name" type="text" onChange={(e) => setName(e.target.value)} sizing="sm" />
         </div>
+        {/* Display validation errors */}
+        {errors.length > 0 && (
+          <div className="text-red-500 text-sm mt-2">
+            <ul>
+              {errors.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
-      <button onClick={handleCreate} className="px-10 mt-10 py-2 transition-all rounded-md hover:bg-secondaryHover flex font-logo bg-secondary text-white">
+      <button
+        onClick={handleCreate}
+        className="px-10 mt-10 py-2 transition-all rounded-md hover:bg-secondaryHover flex font-logo bg-secondary text-white"
+      >
         CREATE NEW <p className='ml-2'><FontAwesomeIcon icon={faPlus} /></p>
       </button>
     </div>
   );
 }
 
-export default CreateBrand
+export default CreateBrand;

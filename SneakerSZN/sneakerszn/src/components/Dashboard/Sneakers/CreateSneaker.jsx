@@ -15,6 +15,7 @@ function CreateSneaker() {
   const [brandId, setBrandId] = useState('');
   const [brands, setBrands] = useState([]);
   const [imageFile, setImageFile] = useState(null);
+  const [errors, setErrors] = useState([]); // State for all errors (ModelState + client-side)
 
   useEffect(() => {
     const fetchBrands = async () => {
@@ -35,43 +36,59 @@ function CreateSneaker() {
     fetchBrands();
   }, []);
 
+  const validateInputs = () => {
+    const validationErrors = [];
+    if (!name.trim()) validationErrors.push('Sneaker name is required.');
+    if (!size.trim()) validationErrors.push('Sneaker size is required.');
+    if (!price.trim()) validationErrors.push('Sneaker price is required.');
+    if (!stock.trim()) validationErrors.push('Sneaker stock is required.');
+    if (!brandId) validationErrors.push('Brand selection is required.');
+    return validationErrors;
+  };
+
   const handleCreateSneaker = async () => {
-    if(name === "" || size === "" || price === "" || stock === "" || brandId == null ) {
-      ToastNotification('error', 'Not all inputs are filled in!');
-    } else {
-      if (!brandId) {
-        ToastNotification('error', 'Choose a valid brand!');
-        return;
-      }
-  
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("size", size);
-      formData.append("price", price);
-      formData.append("stock", stock);
-      formData.append("brandId", brandId);
-      if (imageFile) {
-        formData.append("imageFile", imageFile); 
-      }
-  
-      try {
-        const response = await fetch(`http://localhost:7187/api/Sneaker`, {
-          method: "POST",
-          body: formData 
-        });
-  
-        if (response.status === 200) {
-          ToastNotification('success', 'Created a new sneaker');
-          navigate("../dashboard/sneakers");
-        } else if (response.status === 401) {
-          ToastNotification('error', "You don't have the rights to do this");
+    const clientErrors = validateInputs();
+    if (clientErrors.length > 0) {
+      setErrors(clientErrors);
+      return;
+    }
+
+    setErrors([]); // Clear previous errors
+
+    const formData = new FormData();
+    formData.append('Name', name);
+    formData.append('Size', size);
+    formData.append('Price', price);
+    formData.append('Stock', stock);
+    formData.append('BrandId', brandId);
+    formData.append('ImageFile', imageFile);
+
+    try {
+      const response = await fetch(`http://localhost:7187/api/Sneaker`, {
+        method: "POST",
+        body: formData
+      });
+
+      if (response.status === 200) {
+        ToastNotification('success', 'Created a new sneaker');
+        navigate("../dashboard/sneakers");
+      } else if (response.status === 400) {
+        const data = await response.json();
+        if (data.errors) {
+          // Parse ModelState errors
+          const errorMessages = Object.values(data.errors).flat();
+          setErrors(errorMessages);
         } else {
-          ToastNotification('error', 'Error while creating sneaker');
+          ToastNotification('error', 'Invalid input');
         }
-      } catch (error) {
-        console.error('Error creating sneaker:', error);
+      } else if (response.status === 401) {
+        ToastNotification('error', "You don't have the rights to do this");
+      } else {
         ToastNotification('error', 'Error while creating sneaker');
       }
+    } catch (error) {
+      console.error('Error creating sneaker:', error);
+      ToastNotification('error', 'An unexpected error occurred');
     }
   };
 
@@ -81,30 +98,64 @@ function CreateSneaker() {
         <h1 className="text-xl font-bold mb-3 font-logo">CREATE NEW PRODUCT</h1>
       </div>
       <hr />
+      {/* Display validation errors */}
+      {errors.length > 0 && (
+          <div className="text-red-500 text-sm mt-2">
+            <ul>
+              {errors.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       <div className="flex max-w-md flex-col mt-3 gap-4">
         <div>
           <div className="mb-2 block">
             <Label className="w-full" htmlFor="name" value="Name" />
           </div>
-          <TextInput id="name" type="text" onChange={(e) => setName(e.target.value)} sizing="sm" />
+          <TextInput
+            id="name"
+            type="text"
+            onChange={(e) => setName(e.target.value)}
+            sizing="sm"
+            placeholder="Enter sneaker name"
+          />
         </div>
         <div>
           <div className="mb-2 block">
             <Label htmlFor="size" value="Size" />
           </div>
-          <TextInput id="size" type="text" onChange={(e) => setSize(e.target.value)} sizing="sm" />
+          <TextInput
+            id="size"
+            type="text"
+            onChange={(e) => setSize(e.target.value)}
+            sizing="sm"
+            placeholder="Enter sneaker size in EU sizing"
+          />
         </div>
         <div>
           <div className="mb-2 block">
             <Label htmlFor="price" value="Price" />
           </div>
-          <TextInput id="price" type="number" onChange={(e) => setPrice(e.target.value)} sizing="sm" />
+          <TextInput
+            id="price"
+            type="number"
+            onChange={(e) => setPrice(e.target.value)}
+            sizing="sm"
+            placeholder="Enter sneaker price"
+          />
         </div>
         <div>
           <div className="mb-2 block">
             <Label htmlFor="stock" value="Stock" />
           </div>
-          <TextInput id="stock" type="number" onChange={(e) => setStock(e.target.value)} sizing="sm" />
+          <TextInput
+            id="stock"
+            type="number"
+            onChange={(e) => setStock(e.target.value)}
+            sizing="sm"
+            placeholder="Enter sneaker stock"
+          />
         </div>
         <div>
           <div className="mb-2 block">

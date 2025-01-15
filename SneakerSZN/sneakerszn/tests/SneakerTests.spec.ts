@@ -179,9 +179,9 @@ test('Creating new sneaker, with some empty inputs', async ({ page }) => {
 
   await page.getByRole('button', { name: 'CREATE NEW' }).click();
 
-  await expect(
-    page.getByRole('alert')
-  ).toHaveText('Not all inputs are filled in!');
+  await expect(page.getByText('Sneaker name is required.')).toBeVisible();
+  await expect(page.getByText('Sneaker price is required.')).toBeVisible();
+  await expect(page.getByText('Sneaker stock is required.')).toBeVisible();
 });
 
 test('Editing a sneaker', async ({ page }) => {
