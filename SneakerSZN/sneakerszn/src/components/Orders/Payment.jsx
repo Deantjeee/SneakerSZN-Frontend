@@ -61,8 +61,8 @@ function Payment({ cart, setCart }) {
         setLoading(false);
       } else if (paymentIntent.status === 'succeeded') {
         ToastNotification('success', 'Payment successful');
-        setCart([]); // Clear the cart on successful payment
-        navigate('/'); // Redirect to the home page (or shopping page)
+        setCart([]); 
+        navigate('/'); 
       } else {
         setError('Payment failed');
         setLoading(false);
