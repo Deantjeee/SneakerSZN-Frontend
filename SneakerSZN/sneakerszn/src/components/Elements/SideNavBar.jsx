@@ -1,13 +1,14 @@
 import { Link, NavLink, useNavigate } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGauge, faBox, faBriefcase } from '@fortawesome/free-solid-svg-icons';
+import { faGauge, faBox, faBriefcase, faMessage } from '@fortawesome/free-solid-svg-icons';
 
 function SideNavBar() {
 
   const navlinks = [
     { id: 1, name: "DASHBOARD", href: "/admin/dashboard/overview", icon: faGauge },
     { id: 2, name: "PRODUCTS", href: "/admin/dashboard/sneakers", icon: faBox },
-    { id: 3,  name: "BRANDS", href: "/admin/dashboard/brands", icon: faBriefcase }
+    { id: 3,  name: "BRANDS", href: "/admin/dashboard/brands", icon: faBriefcase },
+    { id: 4,  name: "CHATHUB", href: "/admin/dashboard/chathub", icon: faMessage }
   ]
 
   return (
